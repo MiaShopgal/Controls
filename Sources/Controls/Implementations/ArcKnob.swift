@@ -8,6 +8,9 @@ public struct ArcKnob: View {
     var backgroundColor: Color = .gray
     var foregroundColor: Color = .red
 
+    var backgroundStrokeWidth : CGFloat = 5
+    var foregroundStrokeWidth : CGFloat = 10
+
     @State var isShowingValue = false
     var range: ClosedRange<Float>
     var origin: Float = 0
@@ -73,7 +76,7 @@ public struct ArcKnob: View {
 
                     .rotation(.degrees(-270))
                     .stroke(backgroundColor,
-                            style: StrokeStyle(lineWidth: dim(geo) / 10,
+                            style: StrokeStyle(lineWidth: backgroundStrokeWidth,
                                                lineCap: .round))
                     .squareFrame(dim(geo) * 0.8)
                     .foregroundColor(foregroundColor)
@@ -83,7 +86,7 @@ public struct ArcKnob: View {
                     .trim(from: trimFrom, to: trimTo)
                     .rotation(.degrees(-270))
                     .stroke(foregroundColor,
-                            style: StrokeStyle(lineWidth: dim(geo) / 10,
+                            style: StrokeStyle(lineWidth: foregroundStrokeWidth,
                                                lineCap: .round))
                     .squareFrame(dim(geo) * 0.8)
 
@@ -111,6 +114,22 @@ extension ArcKnob {
     public func foregroundColor(_ foregroundColor: Color) -> ArcKnob {
         var copy = self
         copy.foregroundColor = foregroundColor
+        return copy
+    }
+
+    /// Modifier to change the stroke width of the knob in the background
+    /// - Parameter backgroundStrokeWidth: stroke width of the knob in the background
+    public func backgroundStrokeWidth(_ backgroundStrokeWidth: CGFloat) -> ArcKnob {
+        var copy = self
+        copy.backgroundStrokeWidth = backgroundStrokeWidth
+        return copy
+    }
+
+    /// Modifier to change the stroke width of the knob in the foreground
+    /// - Parameter foregroundStrokeWidth: stroke width of the knob in the foreground
+    public func foregroundStrokeWidth(_ foregroundStrokeWidth: CGFloat) -> ArcKnob {
+        var copy = self
+        copy.foregroundStrokeWidth = foregroundStrokeWidth
         return copy
     }
 }
