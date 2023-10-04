@@ -13,6 +13,7 @@ public struct ArcKnob: View {
 
     @State var isShowingValue = false
     var range: ClosedRange<Float>
+    var limit: ClosedRange<Float>
     var origin: Float = 0
 
     /// Initialize the knob
@@ -23,11 +24,13 @@ public struct ArcKnob: View {
     ///   - origin: Center point from which to draw the arc, usually zero but can be 50% for pan
     public init(_ text: String, value: Binding<Float>,
                 range: ClosedRange<Float> = 0 ... 100,
+                limit: ClosedRange<Float> = 0 ... 100,
                 origin: Float = 0) {
         _value = value
         self.origin = origin
         self.text = text
         self.range = range
+        self.limit = limit
     }
 
     func dim(_ proxy: GeometryProxy) -> CGFloat {
@@ -66,7 +69,7 @@ public struct ArcKnob: View {
     }
 
     public var body: some View {
-        Control(value: $value, in: range,
+        Control(value: $value, in: range, between: limit,
                 geometry: .angle(angularRange: minimumAngle ... maximumAngle),
                 onStarted: { isShowingValue = true },
                 onEnded: { isShowingValue = false }) { geo in
