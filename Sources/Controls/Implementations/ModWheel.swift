@@ -22,7 +22,6 @@ public struct ModWheel: View {
             Control(value: $location,
                     between : 0 ... 100,
                     geometry: .verticalDrag(),
-                    between:nil,
                     padding: CGSize(width: 0, height: indicatorHeight / 2)) { geo in
                 Canvas { cx, size in
                     let viewport = CGRect(origin: .zero, size: size)
