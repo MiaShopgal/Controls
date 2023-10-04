@@ -4,7 +4,6 @@ import SwiftUI
 public struct SmallKnob: View {
     @Binding var value: Float
     var range: ClosedRange<Float> = 0.0 ... 1.0
-    var limit: ClosedRange<Float>
 
     var backgroundColor: Color = .gray
     var foregroundColor: Color = .black
@@ -13,12 +12,9 @@ public struct SmallKnob: View {
     /// - Parameters:
     ///   - value: value being controlled
     ///   - range: range of the value
-    public init ( value : Binding<Float>,
-                  range : ClosedRange<Float> = 0.0 ... 1.0,
-                  limit : ClosedRange<Float> ) {
+    public init(value: Binding<Float>, range: ClosedRange<Float> = 0.0 ... 1.0) {
         _value = value
         self.range = range
-        self.limit = limit
     }
 
     var normalizedValue: Double {
@@ -26,11 +22,8 @@ public struct SmallKnob: View {
     }
 
     public var body: some View {
-        Control ( value : $value,
-                  in : range,
-                  between : limit,
-                  geometry : .twoDimensionalDrag ( xSensitivity : 1,
-                                                   ySensitivity : 1 ) ) { geo in
+        Control(value: $value, in: range,
+                geometry: .twoDimensionalDrag(xSensitivity: 1, ySensitivity: 1)) { geo in
             ZStack(alignment: .center) {
                 Ellipse().foregroundColor(backgroundColor)
                 Rectangle().foregroundColor(foregroundColor)
