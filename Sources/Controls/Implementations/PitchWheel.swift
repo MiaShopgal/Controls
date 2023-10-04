@@ -21,6 +21,7 @@ public struct PitchWheel: View {
         ZStack {
             RoundedRectangle(cornerRadius: cornerRadius).foregroundColor(backgroundColor)
             Control(value: $location,
+                    between : 0 ... 100,
                     geometry: .verticalPoint,
                     padding: CGSize(width: 0, height: indicatorHeight / 2),
                     onEnded: { location = 0.5 }) { geo in
