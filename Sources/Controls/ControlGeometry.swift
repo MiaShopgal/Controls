@@ -27,6 +27,7 @@ public enum ControlGeometry {
 
     func calculateValue(value: Float,
                         in range: ClosedRange<Float> = 0 ... 1,
+                        tolerance between:ClosedRange<Float>?,
                         from oldValue: CGPoint,
                         to touchLocation: CGPoint,
                         inRect rect: CGRect,
@@ -78,7 +79,30 @@ public enum ControlGeometry {
         // Bound and convert to range
         let newValue = max(0.0, min(1.0, temp)) * (range.upperBound - range.lowerBound) + range.lowerBound
 
-        return newValue
+        if between != nil {
+
+            var filteredValue = newValue
+
+            var edge : Float = 0
+
+            if filteredValue > between!.upperBound {
+                edge = between!.upperBound
+            }
+
+            if filteredValue < between!.lowerBound {
+                edge = between!.lowerBound
+            }
+
+            filteredValue = between!.contains ( filteredValue ) ? filteredValue : edge
+
+            return filteredValue
+
+        }
+        else {
+
+            return newValue
+
+        }
     }
 
     func polarCoordinate(point: CGPoint, rect: CGRect) -> PolarCoordinate {

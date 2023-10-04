@@ -8,6 +8,7 @@ public struct Control<Content: View>: View {
     var onEnded: () -> Void
     @Binding var value: Float
     var range: ClosedRange<Float>
+    var limit: ClosedRange<Float>
     var padding: CGSize
 
     @State var hasStarted = false
@@ -16,6 +17,7 @@ public struct Control<Content: View>: View {
         didSet {
             value = geometry.calculateValue(value: value,
                                             in: range,
+                                            tolerance: limit,
                                             from: oldValue,
                                             to: touchLocation,
                                             inRect: rect,
@@ -27,12 +29,14 @@ public struct Control<Content: View>: View {
     /// - Parameters:
     ///   - value: Value that is controlled
     ///   - in range: The limits of the value (defaults to 0-1)
+    ///   - between limit: The limits of the draggable value
     ///   - geometry: Gesture movement geometry specification
     ///   - onStarted: Closure to perform when the drag starts
     ///   - onEnded: Closure to perform when the drag finishes
     ///   - content: View to render
     public init(value: Binding<Float>,
                 in range: ClosedRange<Float> = 0 ... 1,
+                between limit: ClosedRange<Float>,
                 geometry: ControlGeometry = .twoDimensionalDrag(),
                 padding: CGSize = .zero,
                 onStarted: @escaping () -> Void = {},
@@ -42,6 +46,7 @@ public struct Control<Content: View>: View {
         self.geometry = geometry
         _value = value
         self.range = range
+        self.limit = limit
         self.onStarted = onStarted
         self.onEnded = onEnded
         self.content = content
