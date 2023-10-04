@@ -20,6 +20,7 @@ public struct Ribbon: View {
         ZStack {
             RoundedRectangle(cornerRadius: cornerRadius).foregroundColor(backgroundColor)
             Control(value: $position,
+                    between : 0 ... 100,
                     geometry: .horizontalPoint,
                     padding: CGSize(width: indicatorWidth / 2, height: 0)) { geo in
                 Canvas { cx, size in

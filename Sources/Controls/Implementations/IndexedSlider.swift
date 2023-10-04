@@ -16,7 +16,9 @@ public struct IndexedSlider: View {
     }
 
     public var body: some View {
-        Control(value: $normalValue, geometry: .horizontalPoint) { geo in
+        Control(value: $normalValue,
+                between : 0 ... 100,
+                geometry: .horizontalPoint) { geo in
             ZStack(alignment: .bottomLeading) {
                 RoundedRectangle(cornerRadius: cornerRadius)
                     .foregroundColor(backgroundColor)
