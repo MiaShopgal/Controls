@@ -9,6 +9,9 @@ public struct SmallKnob: View {
     var backgroundColor: Color = .gray
     var foregroundColor: Color = .black
 
+    var strokeWidthModifier :  CGFloat = 20
+    var strokeHeightModifier : CGFloat = 4
+
     /// Initialize the knob with a bound value and range
     /// - Parameters:
     ///   - value: value being controlled
@@ -35,7 +38,7 @@ public struct SmallKnob: View {
             ZStack(alignment: .center) {
                 Ellipse().foregroundColor(backgroundColor)
                 Rectangle().foregroundColor(foregroundColor)
-                    .frame(width: geo.size.width / 20, height: geo.size.height / 4)
+                    .frame(width: geo.size.width / strokeWidthModifier, height: geo.size.height / strokeHeightModifier)
                     .rotationEffect(Angle(radians: normalizedValue * 1.6 * .pi + 0.2 * .pi))
                     .offset(x: -sin(normalizedValue * 1.6 * .pi + 0.2 * .pi) * geo.size.width / 2.0 * 0.75,
                             y: cos(normalizedValue * 1.6 * .pi + 0.2 * .pi) * geo.size.height / 2.0 * 0.75)
@@ -61,6 +64,22 @@ extension SmallKnob {
     public func foregroundColor(_ foregroundColor: Color) -> SmallKnob {
         var copy = self
         copy.foregroundColor = foregroundColor
+        return copy
+    }
+
+    /// Modifier to change the foreground color of the knob
+    /// - Parameter strokeWidthModifier: modifier for Rectangle frame's width
+    public func strokeWidthModifier(_ strokeWidthModifier: CGFloat) -> SmallKnob {
+        var copy = self
+        copy.strokeWidthModifier = strokeWidthModifier
+        return copy
+    }
+
+    /// Modifier to change the foreground color of the knob
+    /// - Parameter strokeHeightModifier: modifier for Rectangle frame's height
+    public func strokeHeightModifier(_ strokeHeightModifier: CGFloat) -> SmallKnob {
+        var copy = self
+        copy.strokeHeightModifier = strokeHeightModifier
         return copy
     }
 }
