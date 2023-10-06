@@ -12,15 +12,20 @@ public struct SmallKnob: View {
     var strokeWidthModifier :  CGFloat = 20
     var strokeHeightModifier : CGFloat = 4
 
+    @Binding var disableScroll : Bool
+
     /// Initialize the knob with a bound value and range
     /// - Parameters:
     ///   - value: value being controlled
+    ///   - disableScroll: indicate parent's scroll view should disable scroll-ability
     ///   - range: range of the value
     ///   - limit: range of the draggable value
     public init ( value : Binding<Float>,
+                  disableScroll: Binding<Bool>,
                   range : ClosedRange<Float> = 0.0 ... 1.0,
                   limit : ClosedRange<Float> ) {
         _value = value
+        _disableScroll = disableScroll
         self.range = range
         self.limit = limit
     }
@@ -34,7 +39,9 @@ public struct SmallKnob: View {
                   in : range,
                   between : limit,
                   geometry : .twoDimensionalDrag ( xSensitivity : 1,
-                                                   ySensitivity : 1 ) ) { geo in
+                                                   ySensitivity : 1 ),
+                  onStarted : { disableScroll = true },
+                  onEnded : { disableScroll = false} ) { geo in
             ZStack(alignment: .center) {
                 Ellipse().foregroundColor(backgroundColor)
                 Rectangle().foregroundColor(foregroundColor)

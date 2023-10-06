@@ -14,20 +14,24 @@ public struct ArcKnob: View {
     @State var isShowingValue = false
     var range: ClosedRange<Float>
     var limit: ClosedRange<Float>
+    @Binding var disableScroll : Bool
     var origin: Float = 0
 
     /// Initialize the knob
     /// - Parameters:
     ///   - text: Default text that shows when the value is not shown
     ///   - value: Bound value that is being controlled
+    ///   - disableScroll: Bound value that indicate parent's scroll view should disable scroll-ability
     ///   - range: Range of values
     ///   - limit: Range of draggable values
     ///   - origin: Center point from which to draw the arc, usually zero but can be 50% for pan
     public init(_ text: String, value: Binding<Float>,
+                disableScroll: Binding<Bool>,
                 range: ClosedRange<Float> = 0 ... 100,
                 limit: ClosedRange<Float> = 0 ... 100,
                 origin: Float = 0) {
         _value = value
+        _disableScroll = disableScroll
         self.origin = origin
         self.text = text
         self.range = range
@@ -74,8 +78,14 @@ public struct ArcKnob: View {
                   in : range,
                   between : limit,
                   geometry : .angle ( angularRange : minimumAngle ... maximumAngle ),
-                  onStarted : { isShowingValue = true },
-                  onEnded : { isShowingValue = false } ) { geo in
+                  onStarted : {
+                      isShowingValue = true
+                      disableScroll = false
+                  },
+                  onEnded : {
+                      isShowingValue = false
+                      disableScroll = true
+                  } ) { geo in
             ZStack(alignment: .center) {
                 Circle()
                     .trim(from: minimumAngle.degrees / 360.0, to: maximumAngle.degrees / 360.0)
